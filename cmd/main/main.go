@@ -1,8 +1,19 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"api-botnet/database"
+
+	"github.com/gin-gonic/gin"
+)
+
+func initDatabase() {
+	database.Connect()
+	database.Migrate()
+}
 
 func main() {
+	initDatabase()
+
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
