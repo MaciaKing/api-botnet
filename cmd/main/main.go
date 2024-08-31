@@ -23,5 +23,6 @@ func main() {
 	})
 
 	r.GET("/bots", handlers.GetAllBots)
+	r.POST("/bot/create", handlers.Create)
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
