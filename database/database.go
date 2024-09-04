@@ -35,8 +35,14 @@ func Migrate() {
 	if err := DB.AutoMigrate(&models.Bot{}); err != nil {
 		log.Fatal("Failed to migrate Library model:", err)
 	}
-	log.Println("Bot model migration successful.")
 	createDefaultBoots()
+	log.Println("Bot model migration successful.")
+
+	if err := DB.AutoMigrate(&models.Victim{}); err != nil {
+		log.Fatal("Failed to migrate Library model:", err)
+	}
+	log.Println("Victim model migration successful.")
+
 }
 
 func createDefaultBoots() {
