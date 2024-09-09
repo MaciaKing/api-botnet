@@ -20,9 +20,7 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func main() {
-	initDatabase()
-
+func setupRouter() *gin.Engine {
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -53,5 +51,11 @@ func main() {
 		}
 	})
 
+	return r
+}
+
+func main() {
+	initDatabase()
+	r := setupRouter()
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
