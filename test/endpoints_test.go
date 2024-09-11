@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -59,4 +60,16 @@ func TestGetAllBots(t *testing.T) {
 	expected := "[{\"id\":1,\"ip\":\"1.0.0.0\"}]"
 
 	assert.JSONEq(t, expected, w.Body.String())
+}
+
+func TestCreateBot(t *testing.T) {
+	router := router.SetupRouter()
+
+	body := "{\"ip\": \"8.8.8.8\"}"
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/bot/create", strings.NewReader(body))
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 201, w.Code)
 }
