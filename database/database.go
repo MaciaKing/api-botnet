@@ -31,7 +31,24 @@ func Connect() {
 	log.Println("Database connection successful.")
 }
 
+func ResetDatabase(db *gorm.DB) error {
+	// Drop todas las tablas
+	err := db.Migrator().DropTable("bots", "victims") // Agrega todas las tablas aquí
+	if err != nil {
+		return err
+	}
+
+	// Vuelve a migrar las tablas
+	err = db.AutoMigrate(&models.Bot{}, &models.Victim{}) // Pasa tus modelos aquí
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func Migrate() {
+	ResetDatabase(DB)
 	if err := DB.AutoMigrate(&models.Bot{}); err != nil {
 		log.Fatal("Failed to migrate Library model:", err)
 	}
@@ -48,9 +65,9 @@ func Migrate() {
 func createDefaultBoots() {
 	boots := []models.Bot{
 		{Ip: "1.0.0.0"},
-		{Ip: "2.0.0.0"},
-		{Ip: "3.0.0.0"},
-		{Ip: "4.0.0.0"},
+		// {Ip: "2.0.0.0"},
+		// {Ip: "3.0.0.0"},
+		// {Ip: "4.0.0.0"},
 	}
 
 	for _, bot := range boots {
